@@ -1,6 +1,4 @@
-################################################
-# AWS
-################################################
+
 
 variable "region" {
   description = "AWS region"
@@ -19,10 +17,6 @@ variable "AWS_REGION" {
   default     = ""
 }
 
-################################################
-# Project & Environment
-################################################
-
 variable "project" {
   description = "Project name"
   type        = string
@@ -31,19 +25,6 @@ variable "project" {
 variable "environment" {
   description = "Environment name"
   type        = string
-}
-
-
-######cloudfront###########
-variable "cloudfront_distribution_arn" {
-  description = "CloudFront Distribution ARN (optional)"
-  type        = string
-  default     = null
-}
-variable "certificate_arn" {
-  description = "ACM certificate ARN for ALB HTTPS listener"
-  type        = string
-  default     = null
 }
 
 variable "artifact_bucket" {
@@ -76,10 +57,6 @@ variable "bitbucket_branch" {
   type        = string
 }
 
-variable "sns_email" {
-  description = "Email address for pipeline SNS notifications"
-  type        = string
-}
 
 variable "container_port"{
   description = "Host Port"
