@@ -21,7 +21,7 @@ locals {
 
 # VPC
 module "vpc" {
-  source = "./vpc"
+  source = "../../vpc"
 
   region      = var.region
   project     = local.project
@@ -45,7 +45,7 @@ module "vpc" {
 # ECR
 
 module "ecr_backend" {
-  source = "./ecr"
+  source = "../../ecr"
 
   project     = "${local.project}-backend"
   environment = local.environment
@@ -54,7 +54,7 @@ module "ecr_backend" {
 # S3
 
 module "frontend_s3" {
-  source = "./s3"
+  source = "../../s3"
 
   project     = local.project
   environment = local.environment
@@ -86,7 +86,7 @@ resource "aws_s3_bucket_policy" "frontend_cloudfront_access" {
 # IAM
 
 module "iam" {
-  source = "./iam"
+  source = "../../iam"
 
   project     = local.project
   environment = local.environment
@@ -96,7 +96,7 @@ module "iam" {
 # ALB
 
 module "alb" {
-  source = "./alb"
+  source = "../../alb"
 
   project     = local.project
   environment = local.environment
@@ -109,7 +109,7 @@ module "alb" {
 # ECS
 
 module "ecs" {
-  source = "./ecs"
+  source = "../../ecs"
 
   project     = local.project
   environment = local.environment
@@ -132,7 +132,7 @@ module "ecs" {
 
 
 module "ec2" {
-  source = "./ec2"
+  source = "../../ec2"
 
   project     = local.project
   environment = local.environment
@@ -146,7 +146,7 @@ module "ec2" {
 # RDS — Aurora PostgreSQL Serverless
 
 module "rds" {
-  source = "./rds"
+  source = "../../rds"
 
   project     = local.project
   environment = local.environment
@@ -166,7 +166,7 @@ module "rds" {
 # CodeBuild
 
 module "codebuild" {
-  source = "./codebuild"
+  source = "../../codebuild"
   project     = local.project
   environment = local.environment
   bucket_name = module.frontend_s3.bucket_name
