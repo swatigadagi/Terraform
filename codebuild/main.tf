@@ -2,18 +2,14 @@ provider "aws" {
   region = var.region
 }
 
-################################################
 # CodeBuild IAM Role
-################################################
 
 resource "aws_iam_role_policy_attachment" "codebuild_policy" {
   role       = aws_iam_role.codebuild.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
-################################################
-# Seaverse-frontend
-################################################
+# Frontend
 
 resource "aws_codebuild_project" "frontend" {
   name         = "Seaverse-frontend"
@@ -24,10 +20,10 @@ resource "aws_codebuild_project" "frontend" {
     type            = "BITBUCKET"
     location        = "https://sumati1@bitbucket.org/lms-seaverse/seaverse-frontend-v2-demo.git"
     git_clone_depth = 1
-    buildspec       = "buildspec.yaml"
+    buildspec       = "Frontend_buildspec.yaml"
   }
 
-  # ✅ Artifacts stored in S3 -> Frontend/
+  # Artifacts stored Frontend
   artifacts {
     type      = "S3"
     location  = var.bucket_name
@@ -64,9 +60,7 @@ resource "aws_codebuild_project" "frontend" {
   }
 }
 
-################################################
-# Seaverse-backend
-################################################
+# Backend
 
 resource "aws_codebuild_project" "backend" {
   name         = "Seaverse-backend"
@@ -77,10 +71,10 @@ resource "aws_codebuild_project" "backend" {
     type            = "BITBUCKET"
     location        = "https://sumati1@bitbucket.org/lms-seaverse/seaverse-backend-v2-demo.git"
     git_clone_depth = 1
-    buildspec       = "buildspec_backend.yaml"
+    buildspec       = "Backend_buildspec.yaml"
   }
 
-  # ✅ Artifacts stored in S3 -> Backend/
+  # Artifacts stored Backend
   artifacts {
     type      = "S3"
     location  = var.bucket_name
