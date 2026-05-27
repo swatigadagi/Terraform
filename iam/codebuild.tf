@@ -1,6 +1,4 @@
-#########################
 # IAM Role for CodeBuild
-#########################
 resource "aws_iam_role" "codebuild_role" {
   name = "${var.project}-${var.environment}-codebuild-role-${substr(md5(timestamp()),0,6)}"
 
@@ -18,9 +16,8 @@ resource "aws_iam_role" "codebuild_role" {
   tags = local.common_tags
 }
 
-#########################
-# Attach Managed Policy to CodeBuild Role
-#########################
+# Managed Policy to CodeBuild Role
+
 resource "aws_iam_role_policy_attachment" "codebuild_policy_attachment" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
