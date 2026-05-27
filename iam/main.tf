@@ -22,8 +22,6 @@ resource "aws_iam_role_policy" "ecs_full_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-
-      # ✅ ECR (pull images)
       {
         Effect = "Allow"
         Action = [
@@ -34,7 +32,7 @@ resource "aws_iam_role_policy" "ecs_full_policy" {
         Resource = "*"
       },
 
-      # ✅ CloudWatch Logs
+      # CloudWatch Logs
       {
         Effect = "Allow"
         Action = [
@@ -45,7 +43,7 @@ resource "aws_iam_role_policy" "ecs_full_policy" {
         Resource = "*"
       },
 
-      # ✅ RDS (Aurora access)
+      # RDS
       {
         Effect = "Allow"
         Action = [
@@ -54,7 +52,7 @@ resource "aws_iam_role_policy" "ecs_full_policy" {
         Resource = "*"
       },
 
-      # ✅ ECS (optional internal calls)
+      # ECS
       {
         Effect = "Allow"
         Action = [
@@ -63,7 +61,7 @@ resource "aws_iam_role_policy" "ecs_full_policy" {
         Resource = "*"
       },
 
-      # ✅ EC2 (network interfaces for Fargate)
+      # EC2
       {
         Effect = "Allow"
         Action = [
@@ -74,7 +72,7 @@ resource "aws_iam_role_policy" "ecs_full_policy" {
         Resource = "*"
       },
 
-      # ✅ SSM access (ADDED)
+      # SSM access
       {
         Effect = "Allow"
         Action = [
