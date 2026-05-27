@@ -1,6 +1,4 @@
-################################################
 # DB Subnet Group
-################################################
 
 resource "aws_db_subnet_group" "this" {
   name = lower(replace("${var.project}-${var.environment}-rds-subnet-group", "/[^a-z0-9-]/", "-"))
@@ -13,11 +11,7 @@ resource "aws_db_subnet_group" "this" {
   }
 }
 
-################################################
 # Security Group for RDS
-# Allows access from ECS + Worker Security Group
-################################################
-
 resource "aws_security_group" "rds" {
   name        = "${var.project}-${var.environment}-rds-sg"
   description = "Allow PostgreSQL access from ECS and Worker SG"
@@ -54,9 +48,7 @@ resource "aws_security_group" "rds" {
   }
 }
 
-################################################
-# Aurora PostgreSQL Serverless v2 Cluster
-################################################
+# Aurora PostgreSQL
 
 resource "aws_rds_cluster" "this" {
   cluster_identifier = "${lower(replace("${var.project}-${var.environment}-aurora-pg", "/[^a-z0-9-]/", "-"))}"
@@ -66,20 +58,15 @@ resource "aws_rds_cluster" "this" {
   database_name             = var.name
   master_username           = var.master_username
   master_password           = var.master_password
-
   db_subnet_group_name      = aws_db_subnet_group.this.name
   vpc_security_group_ids    = [aws_security_group.rds.id]
-
   backup_retention_period   = var.backup_retention_days
   preferred_backup_window   = "02:00-03:00"
   preferred_maintenance_window = "sun:04:00-sun:05:00"
-
   deletion_protection       = var.deletion_protection
   skip_final_snapshot       = var.skip_final_snapshot
   final_snapshot_identifier = "${var.project}-${var.environment}-final-snapshot"
-
   storage_encrypted         = true
-
   serverlessv2_scaling_configuration {
     min_capacity = var.min_capacity
     max_capacity = var.max_capacity
@@ -92,9 +79,7 @@ resource "aws_rds_cluster" "this" {
   }
 }
 
-################################################
-# Aurora Serverless v2 Instance (Writer)
-################################################
+# Aurora Serverless writer
 
 resource "aws_rds_cluster_instance" "writer" {
   identifier = replace(lower("${var.project}-${var.environment}-aurora-pg-writer"), "_", "-")
@@ -114,9 +99,7 @@ resource "aws_rds_cluster_instance" "writer" {
   }
 }
 
-################################################
-# Aurora Serverless v2 Instance (Reader)
-################################################
+# Aurora Serverless v2 reader
 
 resource "aws_rds_cluster_instance" "reader" {
   identifier         = "${var.project}-${var.environment}-aurora-pg-reader"
