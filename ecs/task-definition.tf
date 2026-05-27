@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "this" {
-  family                   = "seaverse-backend-container-dev"
+  family                   = "backend-container-dev"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "8192"
@@ -27,8 +27,12 @@ resource "aws_ecs_task_definition" "this" {
       secrets = [
         { name = "PORT", valueFrom = "/v2-dev/PORT" },
         { name = "NODE_ENV", valueFrom = "/v2-dev/NODE_ENV" },
-        { name = "CORS_ORIGIN", valueFrom = "/v2-dev/CORS_ORIGIN" }
-      ]
+        { name = "DB_HOST", valueFrom = "/v2-dev/DB_HOST" },
+        { name = "DB_PORT", valueFrom = "/v2-dev/DB_PORT" },
+        { name = "DB_USER", valueFrom = "/v2-dev/DB_USER" },
+        { name = "DB_PASSWORD", valueFrom = "/v2-dev/DB_PASSWORD" },
+        { name = "DB_NAME", valueFrom = "/v2-dev/DB_NAME" }
+       ]
       mountPoints = []
       volumesFrom = []
 
