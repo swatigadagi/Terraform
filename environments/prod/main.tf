@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket  = "backend-workers-node"
-    key     = "Seaverse-terraform/terraform/terraform.tfstate"
+    key     = "terraform/terraform.tfstate"
     region  = "us-east-1"
     encrypt = true
   }
@@ -21,7 +21,7 @@ locals {
 
 # VPC
 module "vpc" {
-  source = "../../modules/vpc"
+  source = "/modules/vpc"
 
   region      = var.region
   project     = local.project
@@ -42,12 +42,10 @@ module "vpc" {
   ]
 }
 
-################################################
-# 2️⃣ ECR
-################################################
+# ECR
 
 module "ecr_backend" {
-  source = "../../modules/ecr"
+  source = "/modules/ecr"
 
   project     = "${local.project}-backend"
   environment = local.environment
@@ -56,7 +54,7 @@ module "ecr_backend" {
 # S3
 
 module "frontend_s3" {
-  source = "../../modules/s3"
+  source = "/modules/s3"
 
   project     = local.project
   environment = local.environment
@@ -88,7 +86,7 @@ resource "aws_s3_bucket_policy" "frontend_cloudfront_access" {
 # IAM
 
 module "iam" {
-  source = "../../modules/iam"
+  source = "/modules/iam"
 
   project     = local.project
   environment = local.environment
@@ -98,7 +96,7 @@ module "iam" {
 # ALB
 
 module "alb" {
-  source = "../../modules/alb"
+  source = "/modules/alb"
 
   project     = local.project
   environment = local.environment
@@ -111,7 +109,7 @@ module "alb" {
 # ECS
 
 module "ecs" {
-  source = "../../modules/ecs"
+  source = "/modules/ecs"
 
   project     = local.project
   environment = local.environment
@@ -134,7 +132,7 @@ module "ecs" {
 
 
 module "ec2" {
-  source = "../../modules/workers"
+  source = "/modules/workers"
 
   project     = local.project
   environment = local.environment
@@ -148,7 +146,7 @@ module "ec2" {
 # RDS — Aurora PostgreSQL Serverless
 
 module "rds" {
-  source = "../../modules/rds"
+  source = "/modules/rds"
 
   project     = local.project
   environment = local.environment
@@ -168,7 +166,7 @@ module "rds" {
 # CodeBuild
 
 module "codebuild" {
-  source = "../../modules/codebuild"
+  source = "/modules/codebuild"
   project     = local.project
   environment = local.environment
   bucket_name = module.frontend_s3.bucket_name
