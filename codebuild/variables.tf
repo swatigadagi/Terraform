@@ -1,6 +1,4 @@
-################################################
 # AWS
-################################################
 
 variable "region" {
   description = "AWS region where resources will be created"
@@ -8,9 +6,7 @@ variable "region" {
   default     = "us-east-1"
 }
 
-################################################
 # CodeBuild Config
-################################################
 
 variable "codebuild_role_name" {
   description = "IAM role name for CodeBuild"
@@ -49,9 +45,7 @@ variable "bucket_name" {
   type        = string
 }
 
-################################################
 # Deployment Config
-################################################
 
 variable "deploy_type" {
   description = "Deployment type (ec2 or ecs)"
