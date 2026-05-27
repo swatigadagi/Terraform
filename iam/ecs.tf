@@ -1,8 +1,5 @@
-#########################
-# ECS IAM Roles
-#########################
+# ECS IAM Role
 
-# ECS Task Role
 resource "aws_iam_role" "ecs_task_role" {
   name = "${var.project}-${var.environment}-ecs-task-role"
 
@@ -16,13 +13,12 @@ resource "aws_iam_role" "ecs_task_role" {
       Action = "sts:AssumeRole"
     }]
   })
-
   tags = local.common_tags
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_role_attach" {
   role       = aws_iam_role.ecs_task_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonECS_FullAccess"  # ✅ FIXED
+  policy_arn = "arn:aws:iam::aws:policy/AmazonECS_FullAccess"
 }
 
 # ECS Execution Role
@@ -39,7 +35,6 @@ resource "aws_iam_role" "ecs_execution" {
       Action = "sts:AssumeRole"
     }]
   })
-
   tags = local.common_tags
 }
 
