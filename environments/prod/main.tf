@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket  = "backend-workers-node"
     key     = "terraform/terraform.tfstate"
-    region  = "us-east-1"
+    region  = "ap-southeast-2"
     encrypt = true
   }
 }
