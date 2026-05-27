@@ -20,7 +20,7 @@ resource "aws_iam_policy" "codebuild_policy" {
         Action = [
           "s3:*"
         ]
-        Resource = "*"   # ✅ FIX ADDED
+        Resource = "*" 
       }
     ]
   })
