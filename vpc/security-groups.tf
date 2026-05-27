@@ -19,13 +19,6 @@ resource "aws_security_group" "endpoints" {
   }
   ingress {
     description = "HTTPS from VPC"
-    from_port   = 8097
-    to_port     = 8097
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
-  }
-  ingress {
-    description = "HTTPS from VPC"
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
