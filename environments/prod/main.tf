@@ -169,7 +169,7 @@ module "codebuild" {
   project     = local.project
   environment = local.environment
   bucket_name = module.frontend_s3.bucket_name
-  environment = local.environment
+ # environment = local.environment
   deploy_type = "ecs"
   ssm_path = "/seaverse/prod/"
   artifact_bucket =module.frontend_s3.bucket_name
