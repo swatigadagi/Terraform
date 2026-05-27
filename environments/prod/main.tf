@@ -133,13 +133,13 @@ module "ecs" {
 module "ec2" {
   source = "../../ec2"
 
-  project     = local.project
-  environment = local.environment
-  instance_type = "t3.micro"
-  vpc_id = module.vpc.vpc_id
-  public_subnet_id = module.vpc.public_subnet_ids[0]
-  rds_security_group_id = module.rds.rds_security_group_id
-  allowed_ssh_cidr = var.allowed_ssh_cidr
+#  project     = local.project
+#  environment = local.environment
+#  instance_type = "t3.micro"
+#  vpc_id = module.vpc.vpc_id
+#  public_subnet_id = module.vpc.public_subnet_ids[0]
+#  rds_security_group_id = module.rds.rds_security_group_id
+#  allowed_ssh_cidr = var.allowed_ssh_cidr
 }
 
 # RDS — Aurora PostgreSQL Serverless
