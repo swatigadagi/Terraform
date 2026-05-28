@@ -1,3 +1,10 @@
+variable "domain_name" {
+  type = string
+}
+
+variable "route53_zone_id" {
+  type = string
+}
 variable "region" {
   description = "aws region"
   type        = string
