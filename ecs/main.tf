@@ -1,5 +1,5 @@
 data "aws_ssm_parameter" "backend_port" {
-  name = "/terraform/PORT"
+  name = "/terraform/backend_port"
 }
 
 resource "aws_ecs_cluster" "this" {
