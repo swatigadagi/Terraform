@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-bucket = "${lower(var.project)}-${lower(var.environment)}-frontend"
+bucket = "${lower(var.project)}-${lower(var.environment)}-frontend-terraform-creation"
   tags = {
   Name        = "${var.project}-${var.environment}-frontend"  
   Project     = var.project
