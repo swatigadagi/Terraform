@@ -27,7 +27,7 @@ module "vpc" {
   project     = local.project
   environment = local.environment  
   vpc_cidr               = "10.0.0.0/16"
-  azs                    = ["ap-southeast-1a", "ap-southeast-1b"]
+  azs                    = ["ap-southeast-2a", "ap-southeast-2b"]
   public_subnets         = ["10.0.1.0/24", "10.0.2.0/24"]
   private_app_subnets    = ["10.0.10.0/24", "10.0.11.0/24"]
   enable_nat_gateway = true
