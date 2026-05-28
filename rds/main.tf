@@ -48,69 +48,23 @@ resource "aws_security_group" "rds" {
   }
 }
 
-# Aurora PostgreSQL
-
-resource "aws_rds_cluster" "this" {
-  cluster_identifier = "${lower(replace("${var.project}-${var.environment}-aurora-pg", "/[^a-z0-9-]/", "-"))}"
-  engine                    = "aurora-postgresql"
-  engine_mode               = "provisioned"
-  engine_version            = "17.7"
-  database_name             = var.name
-  master_username           = var.master_username
-  master_password           = var.master_password
-  db_subnet_group_name      = aws_db_subnet_group.this.name
-  vpc_security_group_ids    = [aws_security_group.rds.id]
-  backup_retention_period   = var.backup_retention_days
-  preferred_backup_window   = "02:00-03:00"
-  preferred_maintenance_window = "sun:04:00-sun:05:00"
-  deletion_protection       = var.deletion_protection
-  skip_final_snapshot       = var.skip_final_snapshot
-  final_snapshot_identifier = "${var.project}-${var.environment}-final-snapshot"
-  storage_encrypted         = true
-  serverlessv2_scaling_configuration {
-    min_capacity = var.min_capacity
-    max_capacity = var.max_capacity
-  }
-
+resource "aws_db_instance" "this" {
+  identifier = "${var.project}-${var.environment}-postgres"
+  engine         = "postgres"
+  engine_version = "15"
+  instance_class = "db.t3.micro"   # FREE TIER eligible
+  allocated_storage = 20
+  storage_type      = "gp2"
+  db_name  = var.name
+  username = var.master_username
+  password = var.master_password
+  vpc_security_group_ids = [aws_security_group.rds.id]
+  db_subnet_group_name   = aws_db_subnet_group.this.name
+  backup_retention_period = 0   # IMPORTANT for free tier
+  skip_final_snapshot     = true
+  publicly_accessible = false
   tags = {
-    Name        = "${var.project}-${var.environment}-aurora-pg"
-    Project     = var.project
-    Environment = var.environment
-  }
-}
-
-# Aurora Serverless writer
-
-resource "aws_rds_cluster_instance" "writer" {
-  identifier = replace(lower("${var.project}-${var.environment}-aurora-pg-writer"), "_", "-")
-  cluster_identifier  = aws_rds_cluster.this.id
-  instance_class      = "db.serverless"
-  engine              = aws_rds_cluster.this.engine
-  engine_version      = aws_rds_cluster.this.engine_version
-
-  db_subnet_group_name = aws_db_subnet_group.this.name
-
-  performance_insights_enabled = true
-
-  tags = {
-    Name        = "${var.project}-${var.environment}-aurora-pg-writer"
-    Project     = var.project
-    Environment = var.environment
-  }
-}
-
-# Aurora Serverless v2 reader
-
-resource "aws_rds_cluster_instance" "reader" {
-  identifier         = "${var.project}-${var.environment}-aurora-pg-reader"
-  cluster_identifier = aws_rds_cluster.this.id
-  instance_class     = "db.serverless"
-  engine             = aws_rds_cluster.this.engine
-  engine_version     = aws_rds_cluster.this.engine_version
-  db_subnet_group_name = aws_db_subnet_group.this.name
-
-  tags = {
-    Name        = "${var.project}-${var.environment}-aurora-pg-reader"
+    Name        = "${var.project}-${var.environment}-postgres"
     Project     = var.project
     Environment = var.environment
   }
