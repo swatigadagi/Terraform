@@ -27,19 +27,18 @@ Everything is modular, reusable, and environment-based.
 # Project Structure
 
 Terraform/
-│
-├── alb/
-├── codebuild/
-├── ec2/
-├── ecr/
-├── ecs/
-├── environments/
-│   └── prod/
-├── iam/
-├── rds/
-├── s3/
-├── vpc/
-└── README.md
+ alb/
+ codebuild/
+ ec2/
+ ecr/
+ ecs/
+ environments/
+  prod/
+ iam/
+ rds/
+ s3/
+ vpc/
+   README.md
 
 This module creates the complete network setup.
 
