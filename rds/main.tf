@@ -1,7 +1,7 @@
 # DB Subnet Group
 
 resource "aws_db_subnet_group" "this" {
-  cluster_identifier = "${var.project}-${var.environment}-aurora-pg"
+  name = "${var.project}-${var.environment}-aurora-pg"
   subnet_ids  = var.private_subnet_ids
 
   tags = {
