@@ -22,3 +22,10 @@ variable "certificate_arn" {
 variable "container_port" {
   type = number
   }
+variable "domain_name" {
+  type = string
+}
+
+variable "route53_zone_id" {
+  type = string
+}
