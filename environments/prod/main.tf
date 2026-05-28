@@ -79,11 +79,11 @@ module "alb" {
   environment = local.environment
   vpc_id            = module.vpc.vpc_id
   public_subnet_ids = module.vpc.public_subnet_ids
-  certificate_arn = var.certificate_arn
   container_port  = var.container_port
+  certificate_arn = var.certificate_arn
   domain_name     = var.domain_name
-  route53_zone_id = var.route53_zone_id
-}
+ route53_zone_id = var.route53_zone_id
+ }
 
 # ECS
 
