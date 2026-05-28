@@ -41,26 +41,3 @@ resource "aws_route_table_association" "private_app_assoc" {
   subnet_id      = aws_subnet.private_app[count.index].id
   route_table_id = aws_route_table.private_app[count.index].id
 }
-
-# Private Worker Route Tables
-resource "aws_route_table" "private_worker" {
-  count  = length(var.azs)
-  vpc_id = aws_vpc.this.id
-
-  tags = {
-    Name = "${var.project}-${var.environment}-worker-rt-${count.index}"
-  }
-}
-
-resource "aws_route" "private_worker_nat" {
-  count                  = var.enable_nat_gateway ? length(var.azs) : 0
-  route_table_id         = aws_route_table.private_worker[count.index].id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.this[count.index].id
-}
-
-resource "aws_route_table_association" "private_worker_assoc" {
-  count          = length(aws_subnet.private_worker)
-  subnet_id      = aws_subnet.private_worker[count.index].id
-  route_table_id = aws_route_table.private_worker[count.index].id
-}
