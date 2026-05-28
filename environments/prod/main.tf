@@ -91,7 +91,6 @@ module "ecs" {
   project     = local.project
   environment = local.environment
   aws_region  = local.aws_region
-  listener_arn = module.alb.listener_https_arn
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_app_subnet_ids
   container_port  = var.container_port 
