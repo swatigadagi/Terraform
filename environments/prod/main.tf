@@ -135,7 +135,7 @@ module "rds" {
   master_password = var.master_password
   min_capacity = tonumber(var.min_capacity)
   max_capacity = tonumber(var.max_capacity)
-  backup_retention_days = 7
+  backup_retention_days = 1
   deletion_protection   = true
   skip_final_snapshot   = false
 }
