@@ -1,3 +1,7 @@
+variable "enable_https" {
+  type    = bool
+  default = false
+}
 variable "project" {
   type = string
 }
