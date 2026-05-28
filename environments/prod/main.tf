@@ -102,6 +102,7 @@ module "ecs" {
   desired_count = 1
   alb_security_group_id = module.alb.alb_security_group_id
   alb_target_group_arn = module.alb.target_group_arn
+  listener_arn = module.alb.listener_arn
   execution_role_arn = module.iam.ecs_full_role_arn
   task_role_arn      = module.iam.ecs_full_role_arn
 }
