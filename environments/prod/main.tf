@@ -81,7 +81,6 @@ module "alb" {
   public_subnet_ids = module.vpc.public_subnet_ids
   container_port  = var.container_port
   certificate_arn = var.certificate_arn
-  domain_name     = var.domain_name
  }
 
 # ECS
