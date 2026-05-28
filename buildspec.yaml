@@ -1,0 +1,95 @@
+version: 0.2
+
+env:
+  variables:
+    TF_STATE_BUCKET: "demo-project-terraform-app"
+    TF_STATE_REGION: "ap-southeast-2"
+    TF_STATE_KEY: "terraform.tfstate"
+    TERRAFORM_VERSION: "1.15.3"
+    TF_WORKING_DIR: "environments/prod"
+
+phases:
+  install:
+    commands:
+      - echo "Installing Terraform"
+      - yum install -y unzip
+      - curl -O https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+      - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - terraform version
+
+  build:
+    commands:
+      - echo "Moving to Terraform working directory"
+      - cd ${TF_WORKING_DIR}
+
+      - echo "Fetching Terraform variables from SSM Parameter Store"
+
+      - |
+        cat > terraform.tfvars <<EOF
+        EOF
+
+      - |
+        for param in $(aws ssm describe-parameters \
+          --parameter-filters "Key=Name,Option=BeginsWith,Values=/terraform/" \
+          --query "Parameters[*].Name" \
+          --output text); do
+
+          key=$(basename $param)
+
+          value=$(aws ssm get-parameter \
+            --region ap-southeast-2 \
+            --name "$param" \
+            --with-decryption \
+            --query "Parameter.Value" \
+            --output text)
+
+          if [ "$key" = "allowed_ssh_cidr" ]; then
+            echo "$key = $value" >> terraform.tfvars
+          else
+            echo "$key = \"$value\"" >> terraform.tfvars
+          fi
+
+          echo "=================================="
+          echo "Fetched Variable:"
+          echo "$key = $value"
+          echo "=================================="
+
+        done
+
+      - echo "Generated terraform.tfvars"
+      - cat terraform.tfvars
+
+      - echo "Terraform Init"
+      - aws sts get-caller-identity
+      - rm -rf .terraform
+      - rm -f .terraform.lock.hcl
+      - |
+        terraform init \
+         -backend-config="bucket=${TF_STATE_BUCKET}" \
+         -backend-config="key=${TF_STATE_KEY}" \
+         -backend-config="region=${TF_STATE_REGION}"
+
+      - echo "Terraform Validate"
+      - terraform validate
+
+      - echo "Terraform Plan"
+      - terraform plan -var-file="terraform.tfvars"
+      
+      #- terraform state list | grep iam
+      
+      #- echo "terraform destroy started"
+      #- terraform destroy -auto-approve -var-file="terraform.tfvars"
+      
+      - echo "Terraform Apply"
+      - terraform apply -auto-approve -var-file="terraform.tfvars"
+
+artifacts:
+  files:
+    - '**/*'
+  name: terraform-build-artifacts
+  discard-paths: no
+
+cache:
+  paths:
+    - '/root/.terraform/**/*'
