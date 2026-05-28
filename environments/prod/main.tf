@@ -115,9 +115,9 @@ module "ec2" {
   environment = local.environment
   vpc_id = module.vpc.vpc_id
   allowed_ssh_cidr = var.allowed_ssh_cidr
-#  instance_type = "t3.micro"
-#  public_subnet_id = module.vpc.public_subnet_ids[0]
-#  rds_security_group_id = module.rds.rds_security_group_id
+  instance_type = "t3.micro"
+  public_subnet_id = module.vpc.public_subnet_ids[0]
+  rds_security_group_id = module.rds.rds_security_group_id
 }
 
 # RDS — Aurora PostgreSQL Serverless
