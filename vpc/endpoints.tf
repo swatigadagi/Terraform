@@ -15,7 +15,6 @@ resource "aws_vpc_endpoint" "s3" {
 
   route_table_ids = concat(
     aws_route_table.private_app[*].id,
-    aws_route_table.private_worker[*].id
   )
 
   tags = {
@@ -27,7 +26,6 @@ resource "aws_vpc_endpoint" "s3" {
 locals {
   all_private_subnets = concat(
     aws_subnet.private_app,
-    aws_subnet.private_worker
   )
   unique_subnets_per_az = {
     for subnet in local.all_private_subnets :
