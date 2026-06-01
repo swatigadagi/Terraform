@@ -143,13 +143,13 @@ module "rds" {
 
 # CodeBuild
 
-module "codebuild" {
-  source = "../../codebuild"
-  project     = local.project
-  environment = local.environment
-  bucket_name = module.frontend_s3.bucket_name
+#module "codebuild" {
+ # source = "../../codebuild"
+ # project     = local.project
  # environment = local.environment
-  deploy_type = "ecs"
-  ssm_path = "/seaverse/prod/"
-  artifact_bucket =module.frontend_s3.bucket_name
-}
+ # bucket_name = module.frontend_s3.bucket_name
+ # environment = local.environment
+  #deploy_type = "ecs"
+  #ssm_path = "/seaverse/prod/"
+  #artifact_bucket =module.frontend_s3.bucket_name
+#}
