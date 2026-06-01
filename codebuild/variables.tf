@@ -1,29 +1,9 @@
-# AWS
-
-variable "region" {
-  description = "AWS region where resources will be created"
-  type        = string
-  default     = "us-east-1"
-}
-
 # CodeBuild Config
 
 variable "codebuild_role_name" {
   description = "IAM role name for CodeBuild"
   type        = string
   default     = "codebuild-service-role"
-}
-
-variable "compute_type" {
-  description = "CodeBuild compute type"
-  type        = string
-  default     = "BUILD_GENERAL1_MEDIUM"
-}
-
-variable "build_image" {
-  description = "Docker image used for CodeBuild"
-  type        = string
-  default     = "aws/codebuild/standard:7.0"
 }
 
 ################################################
@@ -37,11 +17,6 @@ variable "project" {
 
 variable "environment" {
   description = "Environment name"
-  type        = string
-}
-
-variable "bucket_name" {
-  description = "Artifact bucket name"
   type        = string
 }
 
