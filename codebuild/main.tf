@@ -36,8 +36,8 @@ resource "aws_codebuild_project" "frontend" {
   service_role = aws_iam_role.codebuild.arn
 
   source {
-    type            = "BITBUCKET"
-    location        = "https://sumati1@bitbucket.org/lms-seaverse/seaverse-frontend-v2-demo.git"
+    type            = "GITHUB"
+    location        = "https://github.com/swatigadagi/DevOps_Project_2.git"
     git_clone_depth = 1
     buildspec       = "Frontend_buildspec.yaml"
   }
@@ -56,39 +56,19 @@ resource "aws_codebuild_project" "frontend" {
     image           = var.build_image
     type            = "LINUX_CONTAINER"
     privileged_mode = false
-
-    environment_variable {
-      name  = "ENVIRONMENT"
-      value = var.environment
-    }
-
-    environment_variable {
-      name  = "DEPLOY_TYPE"
-      value = var.deploy_type
-    }
-
-    environment_variable {
-      name  = "SSM_PATH"
-      value = var.ssm_path
-    }
-
-    environment_variable {
-      name  = "ARTIFACT_BUCKET"
-      value = var.artifact_bucket
-    }
   }
 }
 
 # Backend
 
 resource "aws_codebuild_project" "backend" {
-  name         = "Seaverse-backend"
+  name         = "Backend"
   description  = "Backend Build"
   service_role = aws_iam_role.codebuild.arn
 
   source {
-    type            = "BITBUCKET"
-    location        = "https://sumati1@bitbucket.org/lms-seaverse/seaverse-backend-v2-demo.git"
+    type            = "GITHUB"
+    location        = "https://github.com/swatigadagi/DevOps_Project_2.git"
     git_clone_depth = 1
     buildspec       = "Backend_buildspec.yaml"
   }
@@ -101,31 +81,10 @@ resource "aws_codebuild_project" "backend" {
     name      = "backend-build"
     packaging = "ZIP"
   }
-
   environment {
     compute_type    = var.compute_type
     image           = var.build_image
     type            = "LINUX_CONTAINER"
     privileged_mode = true
-
-    environment_variable {
-      name  = "ENVIRONMENT"
-      value = var.environment
-    }
-
-    environment_variable {
-      name  = "DEPLOY_TYPE"
-      value = var.deploy_type
-    }
-
-    environment_variable {
-      name  = "SSM_PATH"
-      value = var.ssm_path
-    }
-
-    environment_variable {
-      name  = "ARTIFACT_BUCKET"
-      value = var.artifact_bucket
-    }
   }
 }
