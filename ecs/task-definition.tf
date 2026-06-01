@@ -24,15 +24,26 @@ resource "aws_ecs_task_definition" "this" {
         appProtocol   = "http"
       }]
       environment = []
-      secrets = [
-        { name = "PORT", valueFrom = "/v2-dev/PORT" },
-        { name = "NODE_ENV", valueFrom = "/v2-dev/NODE_ENV" },
-        { name = "DB_HOST", valueFrom = "/v2-dev/DB_HOST" },
-        { name = "DB_PORT", valueFrom = "/v2-dev/DB_PORT" },
-        { name = "DB_USER", valueFrom = "/v2-dev/DB_USER" },
-        { name = "DB_PASSWORD", valueFrom = "/v2-dev/DB_PASSWORD" },
-        { name = "DB_NAME", valueFrom = "/v2-dev/DB_NAME" }
-       ]
+        secrets = [
+           { name = "ALLOWED_SSH_CIDR", valueFrom = "/terraform/allowed_ssh_cidr" },
+           { name = "BACKEND_PORT",     valueFrom = "/terraform/backend_port" },
+           { name = "CERTIFICATE_ARN",  valueFrom = "/terraform/certificate_arn" },
+           { name = "CONTAINER_PORT",   valueFrom = "/terraform/container_port" },
+           { name = "ENVIRONMENT",      valueFrom = "/terraform/environment" },
+           { name = "MASTER_PASSWORD",  valueFrom = "/terraform/master_password" },
+           { name = "MASTER_USERNAME",  valueFrom = "/terraform/master_username" },
+           { name = "MAX_CAPACITY",     valueFrom = "/terraform/max_capacity" },
+           { name = "MIN_CAPACITY",     valueFrom = "/terraform/min_capacity" },
+           { name = "NAME",             valueFrom = "/terraform/name" },
+           { name = "PROJECT",          valueFrom = "/terraform/project" },
+           { name = "REGION",           valueFrom = "/terraform/region" },
+           { name = "PORT",             valueFrom = "/terraform/PORT" },
+           { name = "DB_HOST",          valueFrom = "/terraform/DB_HOST" },
+           { name = "DB_PORT",          valueFrom = "/terraform/DB_PORT" },
+           { name = "DB_USER",          valueFrom = "/terraform/DB_USER" },
+           { name = "DB_PASSWORD",      valueFrom = "/terraform/DB_PASSWORD" },
+           { name = "DB_NAME",          valueFrom = "/terraform/DB_NAME" }
+         ]
       mountPoints = []
       volumesFrom = []
 
